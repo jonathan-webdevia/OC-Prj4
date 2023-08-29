@@ -31,18 +31,16 @@ img {
 }
 
 .topnav {
-  overflow: hidden;
-  margin: 3.5%;
-}
-.header-logo {
-    float: left;
-}
-.main-navbar {
-    float: right;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  background-color: #fff;
 }
 .topnav a {
-  float: left;
-  display: block;
+  display: inline-block;
   color: #000000;
   text-align: center;
   padding: 12px 12px;
@@ -62,44 +60,56 @@ img {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
+  text-decoration: underline;
+}
+
+.main-navbar {
+  height: 100%;
 }
 
 .topnav .icon {
   display: none;
+  font-size: 2em;
+  color: #ff0000;
 }
 
-@media screen and (max-width: 768px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
+@media screen and (max-width: 800px) {
+  .hero-section {
+    padding-top: 80px;
   }
-}
-
-@media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
-  .topnav.responsive .icon {
-    position: absolute;
-    right: 0;
+  .topnav {
+    position: fixed;
     top: 0;
+    height: 80px;
+    z-index: 100000;
+    padding: 0 30px;
   }
-  .topnav.responsive a {
-    float: none;
+  .topnav .main-navbar {
+    display: none;
+    animation-name: modalopen;
+    animation-duration: var(--modal-duration);
+  }
+  .topnav.responsive .main-navbar {
+    display: flex;
+    height: max-content;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 10;
+    animation-name: modalopen;
+    animation-duration: var(--modal-duration);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px,
+      rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px,
+      rgba(0, 0, 0, 0.07) 0px 16px 16px;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .topnav div.icon {
     display: block;
-    text-align: left;
   }
 }
-
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
-  }
-} 
 
 main {
   font-size: 130%;
@@ -109,10 +119,7 @@ main {
   padding-left: 2vw;
   padding-right: 2vw;
   margin: 1px 20px 15px;
-  border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -166,7 +173,8 @@ main {
   height: 100%;
   width: 100%;
   overflow: auto;
-  background-color: rgba(26, 39, 156, 0.4);
+  background-color: white;
+  /*background-color: rgba(26, 39, 156, 0.4);*/
 }
 
 .content {
@@ -200,6 +208,23 @@ input {
   border: 0.8px solid #ccc;
   outline: none;
 }
+
+input.error {
+  border: 2px solid red;
+}
+
+input ~ .error,
+#locationError,
+#cguError {
+  color: red;
+  font-size: 10px;
+  margin-bottom: 0;
+}
+
+input[type="submit"] {
+  margin-top: 10px;
+}
+
 .text-control {
   margin: 0;
   padding: 8px;
@@ -215,15 +240,15 @@ input {
   display: block;
   margin-top: 7px;
   margin-bottom: 7px;
-  text-align: right;
+  text-align: left;
   line-height: 0.3;
   opacity: 0;
   transition: 0.3s;
 }
-.formData[data-error-visible="true"]::after {
+.formData[data-errorvisible="true"]::after {
   opacity: 1;
 }
-.formData[data-error-visible="true"] .text-control {
+.formData[data-errorvisible="true"] .text-control {
   border: 2px solid #e54858;
 }
 /* 
@@ -405,17 +430,19 @@ input[data-error]::after {
   font-size: 16px;
 }
 .hero-section {
-  min-height: 93vh;
   border-radius: 10px;
   display: grid;
+  grid-template-rows: none;
   grid-template-columns: repeat(12, 1fr);
   overflow: hidden;
   box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
+  height: max-content;
 }
 .hero-content {
   padding: 51px 67px;
-  grid-column: span 4;
+  grid-row: auto;
+  grid-column: 1 / 3;
   background: #232323;
   color: #fff;
   position: relative;
@@ -455,13 +482,15 @@ input[data-error]::after {
   margin-top: 59px;
 }
 .hero-img {
-  grid-column: span 8;
+  grid-row: auto;
+  grid-column: 4 / 13;
 }
 .hero-img img {
   width: 100%;
   height: 100%;
   display: block;
   padding: 0;
+  object-fit: cover;
 }
 .copyrights {
   color: #fe142f;
@@ -473,11 +502,53 @@ input[data-error]::after {
 .hero-section > .btn-signup {
   display: none;
 }
+
+.bground.thanks {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.bground.thanks .content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 800px;
+  padding: 0 80px;
+  max-height: calc(100vh - 80px);
+}
+
+.bground.thanks .content .modal-body {
+  text-align: center;
+  font-size: 30px;
+}
+
+.bground.thanks .content button {
+  justify-self: flex-end;
+  position: absolute;
+  bottom: 20px;
+}
+
 footer {
   padding-left: 2vw;
   padding-right: 2vw;
-  margin: 0 20px;
+  margin: 0;
 }
+
+@media screen and (max-width: 1024px) {
+  .topnav .header-logo img {
+    height: 32px;
+  }
+  .topnav > .main-navbar > a {
+    font-size: 0.8em;
+  }
+  .hero-content .hero-headline {
+    font-size: 4rem;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
@@ -486,7 +557,8 @@ footer {
   .hero-content {
     background: #fff;
     color: #000;
-    padding: 20px;
+    padding: 20px 0;
+    min-width: unset;
   }
   .hero-content::after {
     content: unset;
@@ -495,12 +567,13 @@ footer {
     display: none;
   }
   .hero-headline {
-    font-size: 4.5rem;
-    white-space: normal;
+    font-size: 3rem !important;
+    font-weight: bold;
   }
   .hero-text {
-    width: unset;
+    width: 100%;
     font-size: 1.5rem;
+    white-space: normal;
   }
   .hero-img img {
     border-radius: 10px;
@@ -512,8 +585,37 @@ footer {
     padding: 12px 35px;
   }
   .copyrights {
-    margin-top: 50px;
+    margin-top: 0px;
     text-align: center;
+  }
+  .bground {
+    padding-top: 80px;
+  }
+  .bground .content {
+    margin: 0;
+    max-width: none;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .topnav .header-logo img {
+    height: 30px;
+  }
+  .hero-text {
+    font-size: 0.8em;
+  }
+  .hero-headline {
+    font-size: 2rem !important;
+    font-weight: bold;
+    white-space: normal;
+    margin: 0;
+    padding: 0;
+  }
+  .bground.thanks .content .modal-body {
+    font-size: 24px;
+  }
+  .bground.thanks .content {
+    padding: 0 40px;
   }
 }
 
@@ -526,4 +628,3 @@ footer {
     opacity: 1;
   }
 }
-
