@@ -92,11 +92,10 @@ tournementQuantity.addEventListener("change", () => {
 function txtCheck(input, regEx) {
   const parentData = input.closest(".formData");
   if (regEx.test(input.value)) {
-    console.log("ok test");
     parentData.dataset.errorvisible = "false";
     return true;
   } else {
-    parentData.setAttribute("data-errorvisible", "true");
+    parentData.dataset.errorvisible = "true";
     return false;
   }
 }
