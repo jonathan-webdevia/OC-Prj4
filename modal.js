@@ -114,6 +114,8 @@ function birthChecker(input) {
   }
 }
 
+
+
 function quantityZorM(input) {
   const parentData = input.closest(".formData");
   if (input.value >= 0 && input.value != "") {
